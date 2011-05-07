@@ -14,11 +14,27 @@ describe(wtf8, "decode") {
         
         unsigned int codepoint = 0;
         
-        const char* res = decode_utf8(str1, 1, &codepoint);
+        const char* res = 0;
+
+        codepoint = 0;
+        res = decode_utf8(str1, 1, &codepoint);
         should_equal( codepoint, 1);
+        should_equal( res, str1+1 );
+
+        codepoint = 0;
+        res = decode_utf8(str2, 1, &codepoint);
         should_equal( codepoint, 0x32);
+        should_equal( res, str2+1 );
+
+        codepoint = 0;
+        res = decode_utf8(str3, 1, &codepoint);
         should_equal( codepoint, 0x7f);
+        should_equal( res, str3+1 );
+
+        codepoint = 0;
+        res = decode_utf8(str_er, 1, &codepoint);
         should_equal( codepoint, 0xfffd);
+        should_equal( res, str_er );
         
     }
     
