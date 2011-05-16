@@ -156,6 +156,82 @@ describe(wtf8, "decode") {
         should_equal( res, str_er );
         
     }
+    
+    it("should not allow overlong sequences") {
+        const unsigned char ustr1[]={ 0xc0u, 0xafu };
+        const unsigned char ustr2[]={ 0xe0u, 0x80u, 0xafu };
+        const unsigned char ustr3[]={ 0xf0u, 0x80u, 0x80u, 0xafu };
+        const unsigned char ustr4[]={ 0xf8u, 0x80u, 0x80u, 0x80u, 0xafu };
+        const unsigned char ustr5[]={ 0xfcu, 0x80u, 0x80u, 0x80u, 0x80u, 0xafu };
+
+        const char* str1 = (const char*)ustr1;
+        const char* str2 = (const char*)ustr2;
+        const char* str3 = (const char*)ustr3;
+        const char* str4 = (const char*)ustr4;
+        const char* str5 = (const char*)ustr5;
+        
+        unsigned int codepoint;
+
+        codepoint = 0;
+        wtf8_decode(str1, 2, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+
+        codepoint = 0;
+        wtf8_decode(str2, 3, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+
+        codepoint = 0;
+        wtf8_decode(str3, 4, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+
+        codepoint = 0;
+        wtf8_decode(str4, 5, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+
+        codepoint = 0;
+        wtf8_decode(str5, 6, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+
+        
+    }
+
+    it("should not allow maximum overlong sequences") {
+        const unsigned char ustr1[]={ 0xc1u, 0xbfu };
+        const unsigned char ustr2[]={ 0xe0u, 0x9fu, 0xbfu };
+        const unsigned char ustr3[]={ 0xf0u, 0x8fu, 0xbfu, 0xbfu };
+        const unsigned char ustr4[]={ 0xf8u, 0x87u, 0xbfu, 0xbfu, 0xbfu };
+        const unsigned char ustr5[]={ 0xfcu, 0x83u, 0xbfu, 0xbfu, 0xbfu, 0xbfu };
+
+        const char* str1 = (const char*)ustr1;
+        const char* str2 = (const char*)ustr2;
+        const char* str3 = (const char*)ustr3;
+        const char* str4 = (const char*)ustr4;
+        const char* str5 = (const char*)ustr5;
+        
+        unsigned int codepoint;
+
+        codepoint = 0;
+        wtf8_decode(str1, 2, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+
+        codepoint = 0;
+        wtf8_decode(str2, 3, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+
+        codepoint = 0;
+        wtf8_decode(str3, 4, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+
+        codepoint = 0;
+        wtf8_decode(str4, 5, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+
+        codepoint = 0;
+        wtf8_decode(str5, 6, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+
+        
+    }
 
     
 }
