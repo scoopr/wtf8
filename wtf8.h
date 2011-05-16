@@ -57,6 +57,10 @@ static const uint8_t wtf8_utf8d[] = {
   12,36,12,12,12,12,12,12,12,12,12,12, 
 };
 
+/** Decode utf8 codepoint a byte at a time. Uses explictly user provided state variable,
+  * that should be initialized to zero before first use. Places the result to codep
+  * @return Returns UTF8_ACCEPT when a full codepoint achieved
+  */
 uint32_t inline wtf8_decode_state(uint32_t* state, uint32_t* codep, uint32_t byte) {
   uint32_t type = wtf8_utf8d[byte];
 
@@ -70,7 +74,10 @@ uint32_t inline wtf8_decode_state(uint32_t* state, uint32_t* codep, uint32_t byt
 
 
 
-
+/** Decode a utf8 codepoint from a byte array. Reads maximum of maxbytes from str.
+  * Places the result to result
+  * @return The start of next codepoint sequence
+  */
 static inline const char* wtf8_decode(const char* str, int maxbytes, uint32_t* result) {
 
     const unsigned char* ustr = (unsigned char*)str;
