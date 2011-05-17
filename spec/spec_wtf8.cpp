@@ -246,3 +246,26 @@ describe(wtf8, "wtf8_decode") {
     }
 }
 
+
+
+describe(wtf8, "wtf8_encode") {
+
+    it("should encode all valid codepoints to utf8") {
+        char buf[8];
+        for(size_t i = 0; i < 0x1ffff; ++i)
+        {
+            // Skip surrogates, as they are not allowed in utf8
+            if( i >= 0xd800 && i <= 0xdfff ) continue;
+
+            memset(buf, 0, 8);
+
+            const char* ret1 = wtf8_encode(i, buf);
+            uint32_t res = 0;
+            const char* ret2 = wtf8_decode(buf,7,&res);
+            should_equal( i, res );
+            should_equal( ret1, ret2 );
+        }
+    }
+}
+
+

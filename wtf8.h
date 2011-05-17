@@ -95,6 +95,33 @@ static inline const char* wtf8_decode(const char* str, int maxbytes, uint32_t* r
 }
 
 
+static inline const char* wtf8_encode(uint32_t codepoint, char* str) {
+
+    if( codepoint <= 0x7f) {
+        str[0] = codepoint;
+        str+=1;
+    } else if( codepoint <= 0x7ff ) {
+        str[0] = 0xc0 + (codepoint >> 6);
+        str[1] = 0x80 + (codepoint & 0x3f);
+        str+=2;
+    } else if( codepoint <= 0xffff) {
+        str[0] = 0xe0 + (codepoint >> 12);
+        str[1] = 0x80 + ((codepoint >> 6) & 63);
+        str[2] = 0x80 + (codepoint & 63);
+        str+=3;
+    } else if( codepoint <= 0x1ffff) {
+        str[0] = 0xf0 + (codepoint >> 18);
+        str[1] = 0x80 + ((codepoint >> 12) & 0x3f);
+        str[2] = 0x80 + ((codepoint >> 6) & 0x3f);
+        str[3] = 0x80 + (codepoint & 0x3f);
+        str+=4;
+    }
+    
+    
+    return str;
+}
+
+
 
 #ifdef _WIN32
 #undef uint32_t 
