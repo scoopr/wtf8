@@ -233,6 +233,16 @@ describe(wtf8, "wtf8_decode") {
         
     }
 
-    
+    it("should not allow codepoints designated as surrogates") {
+        for(size_t i = 0xa0; i <= 0xbf; ++i) {
+            for(size_t j = 0x80; j <= 0xbf; ++j) {
+                const unsigned char ustr1[]={ 0xedu, i, j };
+                const char* str1 = (const char*)ustr1;
+                unsigned int codepoint = 0;
+                wtf8_decode(str1, 3, &codepoint);
+                should_equal( codepoint, 0xfffdu);
+            }
+        }
+    }
 }
 
