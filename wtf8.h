@@ -61,7 +61,7 @@ static const uint8_t wtf8_utf8d[] = {
   * that should be initialized to zero before first use. Places the result to codep
   * @return Returns UTF8_ACCEPT when a full codepoint achieved
   */
-uint32_t inline wtf8_decode_state(uint32_t* state, uint32_t* codep, uint32_t byte) {
+static inline uint32_t wtf8_decode_state(uint32_t* state, uint32_t* codep, uint32_t byte) {
   uint32_t type = wtf8_utf8d[byte];
 
   *codep = (*state != UTF8_ACCEPT) ?

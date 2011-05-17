@@ -3,7 +3,7 @@
 #include "spec.h"
 
 
-describe(wtf8, "decode") {
+describe(wtf8, "wtf8_decode") {
     
     it("should decode codepoint from utf8 string in the single octet range 00-7f") {
         
