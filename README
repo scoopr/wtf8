@@ -1,0 +1,19 @@
+
+  wtf8
+  Utility functions for utf8 handling.
+  
+  
+  
+  wtf8_decode - decode a codepoint from utf8 bytes
+  wtf8_encode - encode a codepoint to utf8 bytes
+  
+
+
+
+  The used utf8 decoder is based on the work of Bjoern Hoehrmann.
+  Copyright (c) 2008-2010 Bjoern Hoehrmann <bjoern@hoehrmann.de>
+  See http://bjoern.hoehrmann.de/utf-8/decoder/dfa/ for details.
+
+
+
+
