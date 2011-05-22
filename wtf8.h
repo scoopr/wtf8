@@ -4,6 +4,7 @@
 
 #ifdef _WIN32
 #define uint32_t unsigned int
+#define uint8_t unsigned char
 #else
 #include <stdint.h>
 #endif
