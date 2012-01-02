@@ -162,6 +162,7 @@ static inline int wtf8_strnlen(const char* str, int bytes) {
 
 #ifdef _WIN32
 #undef uint32_t 
+#undef uint8_t
 #endif
 
 
