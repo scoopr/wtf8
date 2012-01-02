@@ -123,6 +123,42 @@ static inline const char* wtf8_encode(uint32_t codepoint, char* str) {
 }
 
 
+static inline int wtf8_strlen(const char* str) {
+
+    int count = 0;
+    uint32_t state = 0;
+
+    const unsigned char* ustr = (unsigned char*)str;
+    uint32_t tmp;
+    while(*ustr != 0) {
+        int res = wtf8_decode_state(&state, &tmp, *ustr);
+        ustr++;
+        if(res == UTF8_ACCEPT) { count++; }
+    }
+
+
+    return count;
+}
+
+static inline int wtf8_strnlen(const char* str, int bytes) {
+
+    int count = 0;
+    uint32_t state = 0;
+
+    const unsigned char* ustr = (unsigned char*)str;
+    uint32_t tmp;
+    while(bytes--) {
+        if(*ustr == 0) break;
+        int res = wtf8_decode_state(&state, &tmp, *ustr);
+        ustr++;
+        if(res == UTF8_ACCEPT) { count++; }
+    }
+
+
+    return count;
+}
+
+
 
 #ifdef _WIN32
 #undef uint32_t 

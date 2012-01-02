@@ -269,3 +269,36 @@ describe(wtf8, "wtf8_encode") {
 }
 
 
+describe(wtf8, "wtf8_strlen") {
+
+    it("should count distinct codepoints") {
+
+        const char* str1 = "foobar";
+        const char* str2 = "foob\xc3\xa6r";
+        const char* str3 = "foob\xf0\x9f\x99\x88r";
+
+        should_equal( wtf8_strlen(str1), 6);
+        should_equal( wtf8_strlen(str2), 6);
+        should_equal( wtf8_strlen(str3), 6);
+
+    }
+
+}
+
+describe(wtf8, "wtf8_strnlen") {
+
+    it("should count distinct codepoints") {
+
+        const char* str1 = "foobar";
+        const char* str2 = "foob\xc3\xa6r";
+        const char* str3 = "foob\xf0\x9f\x99\x88r";
+
+        should_equal( wtf8_strnlen(str1,6), 6);
+        should_equal( wtf8_strnlen(str2,7), 6);
+        should_equal( wtf8_strnlen(str3,9), 6);
+
+    }
+
+}
+
+
