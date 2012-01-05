@@ -301,4 +301,40 @@ describe(wtf8, "wtf8_strnlen") {
 
 }
 
+describe(wtf8, "wtf8_is_continuation_byte") {
+    it("should return true if a given byte is not the initial byte of a utf8 sequence") {
+        const char* str1 = "f";
+        const char* str2 = "f\xc3\xa6r";
+        const char* str3 = "f\xf0\x9f\x99\x88r";
+        should_be_false( wtf8_is_continuation_byte( str1[0] ) );
 
+        should_be_false( wtf8_is_continuation_byte( str2[0] ) );
+        should_be_false( wtf8_is_continuation_byte( str2[1] ) );
+        should_be_true( wtf8_is_continuation_byte( str2[2] ) );
+
+        should_be_false( wtf8_is_continuation_byte( str3[0] ) );
+        should_be_false( wtf8_is_continuation_byte( str3[1] ) );
+        should_be_true( wtf8_is_continuation_byte( str3[2] ) );
+        should_be_true( wtf8_is_continuation_byte( str3[3] ) );
+        should_be_true( wtf8_is_continuation_byte( str3[4] ) );
+    }
+}
+
+describe(wtf8, "wtf8_is_initial_byte") {
+    it("should return true if a given byte is the initial byte of a utf8 sequence") {
+        const char* str1 = "f";
+        const char* str2 = "f\xc3\xa6r";
+        const char* str3 = "f\xf0\x9f\x99\x88r";
+        should_be_true( wtf8_is_initial_byte( str1[0] ) );
+
+        should_be_true( wtf8_is_initial_byte( str2[0] ) );
+        should_be_true( wtf8_is_initial_byte( str2[1] ) );
+        should_be_false( wtf8_is_initial_byte( str2[2] ) );
+
+        should_be_true( wtf8_is_initial_byte( str3[0] ) );
+        should_be_true( wtf8_is_initial_byte( str3[1] ) );
+        should_be_false( wtf8_is_initial_byte( str3[2] ) );
+        should_be_false( wtf8_is_initial_byte( str3[3] ) );
+        should_be_false( wtf8_is_initial_byte( str3[4] ) );
+    }
+}

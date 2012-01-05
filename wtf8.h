@@ -158,6 +158,13 @@ static inline int wtf8_strnlen(const char* str, int bytes) {
     return count;
 }
 
+static inline int wtf8_is_continuation_byte(unsigned char byte) {
+	return (byte & 0xc0) == 0x80;
+}
+
+static inline int wtf8_is_initial_byte(unsigned char byte) {
+	return (byte & 0x80) == 0 || (byte & 0xc0) == 0xc0;
+}
 
 
 #ifdef _WIN32
