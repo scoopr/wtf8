@@ -144,12 +144,13 @@ static inline int wtf8_strnlen(const char* str, int bytes) {
 
     int count = 0;
     uint32_t state = 0;
+    int res;
 
     const unsigned char* ustr = (unsigned char*)str;
     uint32_t tmp;
     while(bytes--) {
         if(*ustr == 0) break;
-        int res = wtf8_decode_state(&state, &tmp, *ustr);
+        res = wtf8_decode_state(&state, &tmp, *ustr);
         ustr++;
         if(res == UTF8_ACCEPT) { count++; }
     }
