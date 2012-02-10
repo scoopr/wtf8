@@ -39,7 +39,7 @@ describe(wtf8, "wtf8_decode") {
         codepoint = 0;
         res = wtf8_decode(str_er, 1, &codepoint);
         should_equal( codepoint, 0xfffdu);
-        should_equal( res, str_er );
+        should_equal( res, str_er+1 );
         
     }
 
@@ -49,11 +49,13 @@ describe(wtf8, "wtf8_decode") {
         const unsigned char ustr2[]={ 0xc4u, 0x80u };
         const unsigned char ustr3[]={ 0xdfu, 0xbfu };
         const unsigned char ustr_er[]={ 0xdfu, 0xc0u };
+        const unsigned char ustr_er2[]={ 0xdfu };
         
         const char* str1 = (const char*)ustr1;
         const char* str2 = (const char*)ustr2;
         const char* str3 = (const char*)ustr3;
         const char* str_er = (const char*)ustr_er;
+        const char* str_er2 = (const char*)ustr_er2;
         
         unsigned int codepoint = 0;
         
@@ -77,7 +79,12 @@ describe(wtf8, "wtf8_decode") {
         codepoint = 0;
         res = wtf8_decode(str_er, 2, &codepoint);
         should_equal( codepoint, 0xfffdu);
-        should_equal( res, str_er );
+        should_equal( res, str_er+2 );
+
+        codepoint = 0;
+        res = wtf8_decode(str_er2, 1, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+        should_equal( res, str_er2+1 );
         
     }
 
@@ -87,11 +94,13 @@ describe(wtf8, "wtf8_decode") {
         const unsigned char ustr2[]={ 0xe1u, 0x80u, 0x80u };
         const unsigned char ustr3[]={ 0xefu, 0xbfu, 0xbfu };
         const unsigned char ustr_er[]={ 0xefu, 0xbfu, 0xc0u };
+        const unsigned char ustr_er2[]={ 0xefu, 0xbfu };
         
         const char* str1 = (const char*)ustr1;
         const char* str2 = (const char*)ustr2;
         const char* str3 = (const char*)ustr3;
         const char* str_er = (const char*)ustr_er;
+        const char* str_er2 = (const char*)ustr_er2;
         
         unsigned int codepoint = 0;
         
@@ -115,7 +124,12 @@ describe(wtf8, "wtf8_decode") {
         codepoint = 0;
         res = wtf8_decode(str_er, 3, &codepoint);
         should_equal( codepoint, 0xfffdu);
-        should_equal( res, str_er );
+        should_equal( res, str_er+3 );
+
+        codepoint = 0;
+        res = wtf8_decode(str_er2, 2, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+        should_equal( res, str_er2+2 );
         
     }
 
@@ -125,11 +139,13 @@ describe(wtf8, "wtf8_decode") {
         const unsigned char ustr2[]={ 0xf0u, 0x92u, 0x80u, 0x80u };
         const unsigned char ustr3[]={ 0xf0u, 0x9fu, 0xbfu, 0xbfu };
         const unsigned char ustr_er[]={ 0xf0u, 0x9fu, 0xbfu, 0xc0u };
+        const unsigned char ustr_er2[]={ 0xf0u, 0x9fu, 0xbfu };
         
         const char* str1 = (const char*)ustr1;
         const char* str2 = (const char*)ustr2;
         const char* str3 = (const char*)ustr3;
         const char* str_er = (const char*)ustr_er;
+        const char* str_er2 = (const char*)ustr_er2;
         
         unsigned int codepoint = 0;
         
@@ -153,7 +169,12 @@ describe(wtf8, "wtf8_decode") {
         codepoint = 0;
         res = wtf8_decode(str_er, 4, &codepoint);
         should_equal( codepoint, 0xfffdu);
-        should_equal( res, str_er );
+        should_equal( res, str_er+4 );
+
+        codepoint = 0;
+        res = wtf8_decode(str_er2, 3, &codepoint);
+        should_equal( codepoint, 0xfffdu);
+        should_equal( res, str_er2+3 );
         
     }
     

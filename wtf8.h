@@ -87,11 +87,12 @@ static inline const char* wtf8_decode(const char* str, int maxbytes, uint32_t* r
         int res = wtf8_decode_state(&state, result, *ustr);
         ustr++;
         if(res == UTF8_ACCEPT) return (const char*)ustr;
+        else if(res == UTF8_REJECT) { *result=0xfffd; return (const char*)ustr; }
     }
 
     *result = 0xfffd;
     
-    return str;
+    return (const char*)ustr;
     
 }
 
@@ -134,6 +135,7 @@ static inline int wtf8_strlen(const char* str) {
         int res = wtf8_decode_state(&state, &tmp, *ustr);
         ustr++;
         if(res == UTF8_ACCEPT) { count++; }
+        else if(res == UTF8_REJECT) { count++; }
     }
 
 
@@ -153,6 +155,7 @@ static inline int wtf8_strnlen(const char* str, int bytes) {
         res = wtf8_decode_state(&state, &tmp, *ustr);
         ustr++;
         if(res == UTF8_ACCEPT) { count++; }
+        else if(res == UTF8_REJECT) { count++; }
     }
 
 
