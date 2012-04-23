@@ -84,7 +84,7 @@ static inline const char* wtf8_decode(const char* str, int maxbytes, uint32_t* r
     const unsigned char* ustr = (unsigned char*)str;
     uint32_t state = 0;
     while(maxbytes--) {
-        int res = wtf8_decode_state(&state, result, *ustr);
+        uint32_t res = wtf8_decode_state(&state, result, *ustr);
         ustr++;
         if(res == UTF8_ACCEPT) return (const char*)ustr;
         else if(res == UTF8_REJECT) { *result=0xfffd; return (const char*)ustr; }
@@ -99,28 +99,29 @@ static inline const char* wtf8_decode(const char* str, int maxbytes, uint32_t* r
 
 static inline const char* wtf8_encode(uint32_t codepoint, char* str) {
 
+    unsigned char* ustr = (unsigned char*)str;
     if( codepoint <= 0x7f) {
-        str[0] = codepoint;
-        str+=1;
+        ustr[0] = (unsigned char)codepoint;
+        ustr+=1;
     } else if( codepoint <= 0x7ff ) {
-        str[0] = 0xc0 + (codepoint >> 6);
-        str[1] = 0x80 + (codepoint & 0x3f);
-        str+=2;
+        ustr[0] = (unsigned char) (0xc0 + (codepoint >> 6));
+        ustr[1] = (unsigned char) (0x80 + (codepoint & 0x3f));
+        ustr+=2;
     } else if( codepoint <= 0xffff) {
-        str[0] = 0xe0 + (codepoint >> 12);
-        str[1] = 0x80 + ((codepoint >> 6) & 63);
-        str[2] = 0x80 + (codepoint & 63);
-        str+=3;
+        ustr[0] = (unsigned char) (0xe0 + (codepoint >> 12));
+        ustr[1] = (unsigned char) (0x80 + ((codepoint >> 6) & 63));
+        ustr[2] = (unsigned char) (0x80 + (codepoint & 63));
+        ustr+=3;
     } else if( codepoint <= 0x1ffff) {
-        str[0] = 0xf0 + (codepoint >> 18);
-        str[1] = 0x80 + ((codepoint >> 12) & 0x3f);
-        str[2] = 0x80 + ((codepoint >> 6) & 0x3f);
-        str[3] = 0x80 + (codepoint & 0x3f);
-        str+=4;
+        ustr[0] = (unsigned char) (0xf0 + (codepoint >> 18));
+        ustr[1] = (unsigned char) (0x80 + ((codepoint >> 12) & 0x3f));
+        ustr[2] = (unsigned char) (0x80 + ((codepoint >> 6) & 0x3f));
+        ustr[3] = (unsigned char) (0x80 + (codepoint & 0x3f));
+        ustr+=4;
     }
     
     
-    return str;
+    return (char*)ustr;
 }
 
 
@@ -132,7 +133,7 @@ static inline int wtf8_strlen(const char* str) {
     const unsigned char* ustr = (unsigned char*)str;
     uint32_t tmp;
     while(*ustr != 0) {
-        int res = wtf8_decode_state(&state, &tmp, *ustr);
+        uint32_t res = wtf8_decode_state(&state, &tmp, *ustr);
         ustr++;
         if(res == UTF8_ACCEPT) { count++; }
         else if(res == UTF8_REJECT) { count++; }
@@ -146,7 +147,7 @@ static inline int wtf8_strnlen(const char* str, int bytes) {
 
     int count = 0;
     uint32_t state = 0;
-    int res;
+    uint32_t res;
 
     const unsigned char* ustr = (unsigned char*)str;
     uint32_t tmp;
@@ -162,11 +163,11 @@ static inline int wtf8_strnlen(const char* str, int bytes) {
     return count;
 }
 
-static inline int wtf8_is_continuation_byte(unsigned char byte) {
+static inline int wtf8_is_continuation_byte(char byte) {
 	return (byte & 0xc0) == 0x80;
 }
 
-static inline int wtf8_is_initial_byte(unsigned char byte) {
+static inline int wtf8_is_initial_byte(char byte) {
 	return (byte & 0x80) == 0 || (byte & 0xc0) == 0xc0;
 }
 

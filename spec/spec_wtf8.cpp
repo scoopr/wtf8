@@ -257,7 +257,7 @@ describe(wtf8, "wtf8_decode") {
     it("should not allow codepoints designated as surrogates") {
         for(size_t i = 0xa0; i <= 0xbf; ++i) {
             for(size_t j = 0x80; j <= 0xbf; ++j) {
-                const unsigned char ustr1[]={ 0xedu, i, j };
+                const unsigned char ustr1[]={ (unsigned char)0xedu, (unsigned char)i, (unsigned char)j };
                 const char* str1 = (const char*)ustr1;
                 unsigned int codepoint = 0;
                 wtf8_decode(str1, 3, &codepoint);
@@ -273,7 +273,7 @@ describe(wtf8, "wtf8_encode") {
 
     it("should encode all valid codepoints to utf8") {
         char buf[8];
-        for(size_t i = 0; i < 0x1ffff; ++i)
+        for(unsigned int i = 0; i < 0x1ffff; ++i)
         {
             // Skip surrogates, as they are not allowed in utf8
             if( i >= 0xd800 && i <= 0xdfff ) continue;
