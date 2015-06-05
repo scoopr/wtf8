@@ -6,14 +6,16 @@
   
   wtf8_decode - decode a codepoint from utf8 bytes
   wtf8_encode - encode a codepoint to utf8 bytes
-  
-
-
+  wtf8_strlen - count the number of codepoints in a utf8 string
+  wtf8_strnlen - count the number of codepoints in a utf8 string
+  wtf8_is_initial_byte - is byte a valid first byte of a sequence
+  wtf8_is_continuation_byte - is byte a valid continuation byte of a sequence
 
   The used utf8 decoder is based on the work of Bjoern Hoehrmann.
   Copyright (c) 2008-2010 Bjoern Hoehrmann <bjoern@hoehrmann.de>
   See http://bjoern.hoehrmann.de/utf-8/decoder/dfa/ for details.
 
+  All other code is public domain.
 
 
 

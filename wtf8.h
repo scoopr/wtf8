@@ -1,14 +1,4 @@
-#ifndef WTF8_WTF8_H
-#define WTF8_WTF8_H
-
-
-#ifdef _WIN32
-#define uint32_t unsigned int
-#define uint8_t unsigned char
-#else
-#include <stdint.h>
-#endif
-
+// WTF8 - Public domain, except for the utf8 decoder below
 
 // Copyright (c) 2008-2010 Bjoern Hoehrmann <bjoern@hoehrmann.de>
 // See http://bjoern.hoehrmann.de/utf-8/decoder/dfa/ for details.
@@ -32,6 +22,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+
+#ifndef WTF8_WTF8_H
+#define WTF8_WTF8_H
+
+
+#ifdef _WIN32
+#define uint32_t unsigned int
+#define uint8_t unsigned char
+#else
+#include <stdint.h>
+#endif
+
+
 
 
 #define UTF8_ACCEPT 0
