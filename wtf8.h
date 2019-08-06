@@ -167,13 +167,15 @@ static inline int wtf8_strnlen(const char* str, int bytes) {
 }
 
 static inline int wtf8_is_continuation_byte(char byte) {
-	return (byte & 0xc0) == 0x80;
+    return (byte & 0xc0) == 0x80;
 }
 
 static inline int wtf8_is_initial_byte(char byte) {
-	return (byte & 0x80) == 0 || (byte & 0xc0) == 0xc0;
+    return (byte & 0x80) == 0
+      || (byte & 0xe0) == 0xc0
+      || (byte & 0xf0) == 0xe0
+      || (byte & 0xf8) == 0xf0;
 }
-
 
 #ifdef _WIN32
 #undef uint32_t 

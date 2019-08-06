@@ -357,5 +357,33 @@ describe(wtf8, "wtf8_is_initial_byte") {
         should_be_false( wtf8_is_initial_byte( str3[2] ) );
         should_be_false( wtf8_is_initial_byte( str3[3] ) );
         should_be_false( wtf8_is_initial_byte( str3[4] ) );
+
+        // 0 - 7f
+        for (int i = 0; i <= 0x7f; ++i) {
+            should_be_true(wtf8_is_initial_byte(i));
+        }
+        // 80 - 7ff
+        for (int i = 0; i <= 0x1f; ++i) {
+            should_be_true(wtf8_is_initial_byte(i | 0xc0));
+        }
+        // 800 - ffff
+        for (int i = 0; i <= 0xf; ++i) {
+            should_be_true(wtf8_is_initial_byte(i | 0xe0));
+        }
+        // 10000 - 10ffff
+        for (int i = 0; i <= 0x7; ++i) {
+            should_be_true(wtf8_is_initial_byte(i | 0xf0));
+        }
+
+        // continuation bytes
+        for (int i = 0x0; i <= 0x3f; ++i) {
+            should_be_false(wtf8_is_initial_byte(i | 0x80));
+        }
+
+        // remaining bytes
+        for (int i = 0xf8; i <= 0xff; ++i) {
+            should_be_false(wtf8_is_initial_byte(i));
+        }
+
     }
 }
